@@ -40,7 +40,9 @@ xml2csw simule les requêtes de base "GetRecords" et "GetRecordById" à partir d
 
 ## Paramétrage:
 
-Les paramétrages s'affectuent via l'URL.
+La configuration de la réponse au format XML (contact, nom du server, etc.) se fait dans le fichier config.php.
+
+Les paramétrages des appels à l'application s'affectuent via l'URL.
 
 Pour simuler un requête "GetRecords" : http://domaine.dom/xml2csw.php?xml_dir=xml&maxrecords=10&startposition=1&request=GetRecord...'*ortho*'
 
