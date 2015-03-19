@@ -40,7 +40,7 @@ xml2csw simule les requêtes de base "GetRecords" et "GetRecordById" à partir d
 
 ## Paramétrage:
 
-La configuration de la réponse au format XML (contact, nom du server, etc.) se fait dans le fichier config.php.
+La configuration de la réponse au GetCapabilities (contact, nom du server, etc.) se fait dans le fichier config.php.
 
 Les paramétrages des appels à l'application s'affectuent via l'URL.
 
