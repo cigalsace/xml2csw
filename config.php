@@ -30,6 +30,8 @@ $ows_HoursOfService = '--';
 $ows_ContactInstructions = '--';
 $ows_Role = 'pointOfContact';
 
+$ows_Get = 'http://www.cigalsace.net/xml2csw/?xml_dir=xml';
+
 $capabilities_xml = '
     <csw:Capabilities xmlns:csw="http://www.opengis.net/cat/csw/2.0.2" xmlns:gml="http://www.opengis.net/gml" xmlns:gmd="http://www.isotc211.org/2005/gmd" xmlns:ows="http://www.opengis.net/ows" xmlns:ogc="http://www.opengis.net/ogc" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:inspire_ds="http://inspire.ec.europa.eu/schemas/inspire_ds/1.0" xmlns:inspire_com="http://inspire.ec.europa.eu/schemas/common/1.0" version="2.0.2" xsi:schemaLocation="http://www.opengis.net/cat/csw/2.0.2 http://schemas.opengis.net/csw/2.0.2/CSW-discovery.xsd http://inspire.ec.europa.eu/schemas/inspire_ds/1.0 http://inspire.ec.europa.eu/schemas/inspire_ds/1.0/inspire_ds.xsd">
       <ows:ServiceIdentification>
@@ -77,7 +79,7 @@ $capabilities_xml = '
         <ows:Operation name="GetCapabilities">
           <ows:DCP>
             <ows:HTTP>
-              <ows:Get xlink:href="http://www.cigalsace.net/xml2csw/?xml_dir=xml&" />
+              <ows:Get xlink:href="'.$ows_Get.'" />
               <!--<ows:Post xlink:href="http://www.cigalsace.net/xml2csw/?xml_dir=xml" />-->
             </ows:HTTP>
           </ows:DCP>
@@ -133,8 +135,8 @@ $capabilities_xml = '
         <ows:Operation name="GetRecords">
           <ows:DCP>
             <ows:HTTP>
-              <ows:Get xlink:href="http://www.cigalsace.net/xml2csw/?xml_dir=xml&" />
-              <!--<ows:Post xlink:href="http://www.cigalsace.net/xml2csw/?xml_dir=xml&" />-->
+              <ows:Get xlink:href="'.$ows_Get.'" />
+              <!--<ows:Post xlink:href="http://www.cigalsace.net/xml2csw/?xml_dir=xml" />-->
             </ows:HTTP>
           </ows:DCP>
           <ows:Parameter name="resultType">
@@ -217,7 +219,7 @@ $capabilities_xml = '
         <ows:Operation name="GetRecordById">
           <ows:DCP>
             <ows:HTTP>
-              <ows:Get xlink:href="http://www.cigalsace.net/xml2csw/?xml_dir=xml" />
+              <ows:Get xlink:href="'.$ows_Get.'" />
               <!-- <ows:Post xlink:href="http://www.cigalsace.org/geonetwork-private/srv/eng/csw-geocatalogue" /> -->
             </ows:HTTP>
           </ows:DCP>
@@ -430,7 +432,4 @@ $capabilities_xml = '
       </ogc:Filter_Capabilities>
       -->
     </csw:Capabilities>';
-
-
-
 ?>

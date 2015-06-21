@@ -26,19 +26,28 @@ if ($request and $request == 'GetRecords') {
 
 	// $_GET['constraint']
 	//constraint=anyText+LIKE+'*ortho*'&"
+	//nettoyage de la variable 'constraint' pour garder valeur à rechercher ($search)
 	$search = '';
 	$constraint = get('constraint');
 	if ($constraint) {
 		preg_match("#\*(.*?)\*#i", $constraint, $matches);
-		$search = $matches[1];
+		$search = explode('+', $matches[1]);
 	}
 
 	$matched_files = array();
 	foreach ($xml_files as $file) {
 		$xml_file = strip_tags(file_get_contents($dir.'/'.$file));
+		//Si contraints, alors effectuer la recherche de $search dans le contenu du fichier
 		if ($constraint) {
-			if (strpos($xml_file, $search)) {
-				$matched_files[] = $file;
+		    $count = 0;
+		    foreach ($search as $s) {
+		        $s = trim($s);
+			    if (stripos($xml_file, $s)) {
+			        $count++;
+			    }
+			}
+			if ($count == count($search)) {
+			    $matched_files[] = $file;
 			}
 		} else {
 			$matched_files[] = $file;
@@ -66,7 +75,10 @@ if ($request and $request == 'GetRecords') {
 	for ($i = $startposition; $i < $startposition+$maxrecords; $i++) {
 		$xml_file = file($dir.'/'.$matched_files[$i]);
 		unset($xml_file[0]);
-		$xml = implode('', $xml_file);
+		$xml = implode("\n", $xml_file);
+        
+        $xml = str_replace("</gco:CharacterString></gmd:fileIdentifier>", "</gco:CharacterString></gmd:fileIdentifier>\n<gmd:fileName><gco:CharacterString>".$matched_files[$i]."</gco:CharacterString></gmd:fileName>", $xml);
+        
 		$xml_content .= $xml;
 	}
 
@@ -90,16 +102,17 @@ if ($request and $request == 'GetRecords') {
 	// $_GET['id']
 	$id = get('id');
     
-	if ($id and file_exists($dir.'/'.$id.'.xml')) {
+	// if ($id and file_exists($dir.'/'.$id.'.xml')) {
+	if ($id and file_exists($dir.'/'.$id)) {
 
-		$xml_file = file($dir.'/'.$id.'.xml');
+		$xml_file = file($dir.'/'.$id);
 		unset($xml_file[0]);
 		$xml_content = implode('', $xml_file);
 
 		$xml = '';
-		$xml .= '<csw:GetRecordByIdResponse xmlns:csw="http://www.opengis.net/cat/csw/2.0.2">';
+		//$xml .= '<csw:GetRecordByIdResponse xmlns:csw="http://www.opengis.net/cat/csw/2.0.2">';
 		$xml .= $xml_content;
-		$xml .= '</csw:GetRecordByIdResponse>';
+		//$xml .= '</csw:GetRecordByIdResponse>';
 
 		header('Content-Type: application/xml; charset=utf-8');
 		echo $xml;
